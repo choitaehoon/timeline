@@ -6,6 +6,7 @@ import com.timeline.security.AccountContext;
 import com.timeline.security.tokens.PostAuthorizationToken;
 import com.timeline.security.tokens.PreAuthorizationToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -13,10 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.NoSuchElementException;
 
+@Configuration
 @RequiredArgsConstructor
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 
-    private final AccountContext accountContext;
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -35,12 +36,11 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
             return PostAuthorizationToken.getTokenFromAccountContext(AccountContext.accountModel(account));
         }
 
-        return null;
+        throw new NoSuchElementException("인증 정보가 정확하지 않습니다.");
     }
 
-    //TODO 순서가 바뀌면 안됨 -> 먼저 온 password부터
     private boolean isCorrectPassword(String password, Account account) {
-        return passwordEncoder.matches(account.getPassword(), password);
+        return passwordEncoder.matches(password, account.getPassword());
     }
 
     @Override

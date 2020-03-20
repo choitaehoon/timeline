@@ -24,6 +24,10 @@ public class AccountContext extends User {
         this.account = account;
     }
 
+    public AccountContext(String username, String password, String role) {
+        super(username, password, parseAuthorities(role));
+    }
+
     public static AccountContext accountModel(Account account) {
         return new AccountContext(account, account.getUserId(), account.getPassword(), changeAccountRoleToList(account.getAccountRole()));
     }
@@ -32,6 +36,10 @@ public class AccountContext extends User {
         return Stream.of(accountRole)
                 .map(r -> new SimpleGrantedAuthority(r.getRoleName()))
                 .collect(Collectors.toList());
+    }
+
+    private static List<SimpleGrantedAuthority> parseAuthorities(String role) {
+        return changeAccountRoleToList(AccountRole.getRoleByName(role));
     }
 
     public Account getAccount() {

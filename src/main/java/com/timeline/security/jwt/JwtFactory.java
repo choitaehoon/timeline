@@ -23,6 +23,7 @@ public class JwtFactory {
         try {
             token = JWT.create()
                     .withIssuer("timeline")
+                    .withClaim("USERNAME", context.getAccount().getUserId())
                     .withClaim("USER_ROLE", context.getAccount().getAccountRole().getRoleName())
                     .sign(generateAlgorithm());
         } catch (Exception e) {

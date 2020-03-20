@@ -1,11 +1,14 @@
 package com.timeline.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Account {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +29,15 @@ public class Account {
     @Enumerated(value = EnumType.STRING)
     private AccountRole accountRole;
 
-    private Long socialId;
-
+    @Builder
+    public Account(String userId, String name, String password, String address,
+                   String birthday, String sex, AccountRole accountRole) {
+        this.userId = userId;
+        this.name = name;
+        this.password = password;
+        this.address = address;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.accountRole = accountRole;
+    }
 }

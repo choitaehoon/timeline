@@ -1,8 +1,13 @@
 package com.timeline.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.timeline.security.filters.FilterSkipMatcher;
+import com.timeline.security.filters.JwtAuthenticationFilter;
 import com.timeline.security.filters.LoginFilter;
+import com.timeline.security.handler.JwtAuthenticationFailureHandler;
 import com.timeline.security.handler.LoginAuthenticationSuccessHandler;
+import com.timeline.security.jwt.HeaderTokenExtractor;
+import com.timeline.security.providers.JwtAuthenticationProvider;
 import com.timeline.security.providers.LoginAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +21,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Arrays;
 
 @Slf4j
 @Configuration
@@ -32,10 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private LoginAuthenticationProvider provider;
 
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    private JwtAuthenticationProvider jwtProvider;
+
+    @Autowired
+    private JwtAuthenticationFailureHandler jwtFailureHandler;
+
+    @Autowired
+    private HeaderTokenExtractor headerTokenExtractor;
 
     @Bean
     public ObjectMapper getObjectMapper() {
@@ -54,10 +63,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
+    protected JwtAuthenticationFilter jwtFilter() throws Exception {
+        FilterSkipMatcher matcher = new FilterSkipMatcher(Arrays.asList("/login", "/social"), "/api/**");
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(matcher, jwtFailureHandler, headerTokenExtractor);
+        filter.setAuthenticationManager(super.authenticationManagerBean());
+
+        return filter;
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .authenticationProvider(this.provider);
+                .authenticationProvider(this.provider)
+                .authenticationProvider(this.jwtProvider);
     }
 
     @Override
@@ -73,6 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .disable();
         http
-                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -15,7 +17,7 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<Account> accountSignUp(@RequestBody Account account) {
+    public ResponseEntity<Account> accountSignUp(@Valid @RequestBody Account account) {
 
         Account signUp = loginService.accountSignUp(account);
 

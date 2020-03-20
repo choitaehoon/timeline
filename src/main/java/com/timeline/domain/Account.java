@@ -1,5 +1,6 @@
 package com.timeline.domain;
 
+import com.timeline.config.valid.ValidUserIdAccount;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class Account {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ValidUserIdAccount
     private String userId;
 
     private String name;

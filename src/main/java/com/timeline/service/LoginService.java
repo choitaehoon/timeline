@@ -2,11 +2,14 @@ package com.timeline.service;
 
 import com.timeline.domain.Account;
 import com.timeline.domain.AccountRole;
+import com.timeline.exception.login.LoginUsernameExceptionHandler;
 import com.timeline.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoginService {
@@ -25,8 +28,17 @@ public class LoginService {
                 .accountRole(AccountRole.USER)
                 .build();
 
+        isAccountExist(account.getUserId());
+
         accountRepository.save(signUp);
 
         return signUp;
     }
+
+    private void isAccountExist(String userId) {
+        if (accountRepository.findByUserId(userId).isPresent()) {
+            throw new LoginUsernameExceptionHandler("아이디가 존재 합니다");
+        }
+    }
+
 }

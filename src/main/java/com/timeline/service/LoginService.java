@@ -2,7 +2,7 @@ package com.timeline.service;
 
 import com.timeline.domain.Account;
 import com.timeline.domain.AccountRole;
-import com.timeline.exception.login.LoginUserIdExceptionHandler;
+import com.timeline.exception.login.AccountExistCheckException;
 import com.timeline.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class LoginService {
 
     private void isAccountExist(String userId) {
         if (accountRepository.findByUserId(userId).isPresent()) {
-            throw new LoginUserIdExceptionHandler("아이디가 존재 합니다");
+            throw new AccountExistCheckException("아이디가 존재 합니다");
         }
     }
 

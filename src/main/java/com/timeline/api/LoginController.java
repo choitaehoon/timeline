@@ -10,20 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Slf4j
+@CrossOrigin
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class LoginController {
 
     private final LoginService loginService;
 
-    @PostMapping("/v1/account")
+    @PostMapping("/account")
     public ResponseEntity<Account> accountSignUp(@Valid @RequestBody Account account) {
-
-        Account signUp = loginService.accountSignUp(account);
-
-        return new ResponseEntity<>(signUp, HttpStatus.OK);
+        return new ResponseEntity<>(loginService.accountSignUp(account), HttpStatus.OK);
     }
 
 }

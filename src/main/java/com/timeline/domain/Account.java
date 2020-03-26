@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Account {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
 
     @ValidUserIdAccount

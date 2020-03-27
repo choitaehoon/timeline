@@ -1,4 +1,4 @@
-package com.timeline.config.valid;
+package com.timeline.config.valid.account;
 
 import com.timeline.exception.login.AccountIdOrPasswordException;
 import lombok.SneakyThrows;

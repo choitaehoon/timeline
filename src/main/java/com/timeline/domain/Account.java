@@ -1,7 +1,5 @@
 package com.timeline.domain;
 
-import com.timeline.config.valid.ValidUserIdAccount;
-import com.timeline.config.valid.ValidUserPasswordAccount;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,12 +15,10 @@ public class Account {
     @Id @GeneratedValue
     private Long id;
 
-    @ValidUserIdAccount
     private String userId;
 
     private String name;
 
-    @ValidUserPasswordAccount
     private String password;
 
     private String address;

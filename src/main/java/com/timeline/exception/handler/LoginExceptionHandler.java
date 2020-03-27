@@ -1,4 +1,4 @@
-package com.timeline.exception;
+package com.timeline.exception.handler;
 
 import com.timeline.exception.login.AccountIdOrPasswordException;
 import com.timeline.exception.login.AccountExistCheckException;

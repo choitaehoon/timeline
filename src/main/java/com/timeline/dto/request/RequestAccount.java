@@ -1,6 +1,7 @@
 package com.timeline.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.timeline.config.valid.account.ValidUserIdAccount;
+import com.timeline.config.valid.account.ValidUserPasswordAccount;
 import com.timeline.domain.AccountRole;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,10 +14,12 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor
 public class RequestAccount {
 
+    @ValidUserIdAccount
     private String userId;
 
     private String name;
 
+    @ValidUserPasswordAccount
     private String password;
 
     private String address;

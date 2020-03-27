@@ -1,7 +1,9 @@
-package com.timeline.domain;
+package com.timeline.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timeline.api.LoginController;
+import com.timeline.domain.Account;
+import com.timeline.domain.AccountRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

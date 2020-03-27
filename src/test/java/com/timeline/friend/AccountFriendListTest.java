@@ -1,6 +1,9 @@
-package com.timeline.domain;
+package com.timeline.friend;
 
 import com.timeline.config.PasswordEncoderTestConfig;
+import com.timeline.domain.Account;
+import com.timeline.domain.AccountFriendList;
+import com.timeline.domain.AccountRole;
 import com.timeline.dto.response.ResponseAccountFriendList;
 import com.timeline.repository.AccountFriendListRepository;
 import com.timeline.repository.AccountRepository;

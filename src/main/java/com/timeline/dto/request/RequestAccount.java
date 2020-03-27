@@ -1,28 +1,22 @@
-package com.timeline.domain;
+package com.timeline.dto.request;
 
-import com.timeline.config.valid.ValidUserIdAccount;
-import com.timeline.config.valid.ValidUserPasswordAccount;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.timeline.domain.AccountRole;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
-@Entity
 @Getter
 @NoArgsConstructor
-@Table(indexes = {@Index(columnList = "userId")})
-public class Account {
+public class RequestAccount {
 
-    @Id @GeneratedValue
-    private Long id;
-
-    @ValidUserIdAccount
     private String userId;
 
     private String name;
 
-    @ValidUserPasswordAccount
     private String password;
 
     private String address;
@@ -35,8 +29,8 @@ public class Account {
     private AccountRole accountRole;
 
     @Builder
-    public Account(String userId, String name, String password, String address,
-                   String birthday, String sex, AccountRole accountRole) {
+    public RequestAccount(String userId, String name, String password, String address,
+                          String birthday, String sex, AccountRole accountRole) {
         this.userId = userId;
         this.name = name;
         this.password = password;

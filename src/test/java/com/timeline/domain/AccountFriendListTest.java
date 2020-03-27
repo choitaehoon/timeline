@@ -52,9 +52,6 @@ class AccountFriendListTest {
         ResponseAccountFriendList responseAccountFriendList =
                 new ResponseAccountFriendList(accountFriendListRepository.findByUserId("test"));
 
-        for (String store : responseAccountFriendList.getFriends())
-            System.out.println(store);
-
         assertThat(responseAccountFriendList.getSize()).isEqualTo(LIST_TWO_COUNT);
     }
 

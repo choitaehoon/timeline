@@ -2,6 +2,8 @@ package com.timeline.service;
 
 import com.timeline.domain.Account;
 import com.timeline.domain.AccountRole;
+import com.timeline.dto.request.RequestAccount;
+import com.timeline.dto.response.ResponseAccount;
 import com.timeline.exception.login.AccountExistCheckException;
 import com.timeline.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,28 +19,33 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
 
-    public Account accountSignUp(Account account) {
-        Account signUp = Account.builder()
-                .userId(account.getUserId())
-                .name(account.getName())
-                .password(passwordEncoder.encode(account.getPassword()))
-                .address(account.getAddress())
-                .birthday(account.getBirthday())
-                .sex(account.getSex())
-                .accountRole(AccountRole.USER)
-                .build();
+    public ResponseAccount accountSignUp(RequestAccount requestAccount) {
+        Account account = convertRequestAccountToAccount(requestAccount);
 
         isAccountExist(account.getUserId());
 
-        accountRepository.save(signUp);
+        accountRepository.save(account);
 
-        return signUp;
+        return new ResponseAccount(account);
     }
 
     private void isAccountExist(String userId) {
         if (accountRepository.findByUserId(userId).isPresent()) {
             throw new AccountExistCheckException("아이디가 존재 합니다");
         }
+    }
+
+    public Account convertRequestAccountToAccount(RequestAccount requestAccount) {
+
+        return Account.builder()
+                .userId(requestAccount.getUserId())
+                .name(requestAccount.getName())
+                .password(passwordEncoder.encode(requestAccount.getPassword()))
+                .address(requestAccount.getAddress())
+                .birthday(requestAccount.getBirthday())
+                .sex(requestAccount.getSex())
+                .accountRole(AccountRole.USER)
+                .build();
     }
 
 }

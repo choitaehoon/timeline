@@ -13,18 +13,19 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public ResponsePost writePost(RequestPost requestPost) {
-        Post post = convertRequestPostToPost(requestPost);
+    public ResponsePost writePost(RequestPost requestPost, String writer) {
+        Post post = convertRequestPostToPost(requestPost, writer);
 
         postRepository.save(post);
 
         return new ResponsePost(post);
     }
 
-    private Post convertRequestPostToPost(RequestPost requestPost) {
+    private Post convertRequestPostToPost(RequestPost requestPost, String writer) {
         return Post.builder()
                 .title(requestPost.getTitle())
                 .content(requestPost.getContent())
+                .writer(writer)
                 .build();
     }
 

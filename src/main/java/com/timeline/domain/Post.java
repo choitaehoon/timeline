@@ -20,10 +20,13 @@ public class Post {
 
     private String content;
 
+    private String writer;
+
     @Builder
-    public Post(String title, String content) {
+    public Post(String title, String content, String writer) {
         this.title = title;
         this.content = content;
+        this.writer = writer;
     }
 
 }

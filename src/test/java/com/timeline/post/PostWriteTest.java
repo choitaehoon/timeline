@@ -21,8 +21,8 @@ public class PostWriteTest {
 
         ResponsePost responsePost = postService.writePost(post, "writer");
 
-        assertThat(responsePost.getPost().getContent()).isEqualTo("this is test");
-        assertThat(responsePost.getPost().getTitle()).isEqualTo("test");
+        assertThat(responsePost.getContent()).isEqualTo("this is test");
+        assertThat(responsePost.getTitle()).isEqualTo("test");
     }
 
     @Test
@@ -31,8 +31,8 @@ public class PostWriteTest {
 
         ResponsePost responsePost = postService.writePost(post, "writer");
 
-        assertThat(responsePost.getPost().getContent()).isNull();
-        assertThat(responsePost.getPost().getTitle()).isNull();
+        assertThat(responsePost.getContent()).isNull();
+        assertThat(responsePost.getTitle()).isNull();
     }
 
     private RequestPost writePost() {

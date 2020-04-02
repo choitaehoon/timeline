@@ -6,9 +6,15 @@ import lombok.Getter;
 @Getter
 public class ResponsePost {
 
-    private final Post post;
+    private final String title;
+
+    private final String content;
+
+    private final String writer;
 
     public ResponsePost(Post post) {
-        this.post = post;
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.writer = post.getWriter();
     }
 }

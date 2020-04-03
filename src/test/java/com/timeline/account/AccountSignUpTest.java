@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timeline.api.LoginController;
 import com.timeline.domain.Account;
 import com.timeline.domain.AccountRole;
+import com.timeline.dto.request.RequestAccount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ class AccountSignUpTest {
 
     private ObjectMapper objectMapper;
 
-    private Account account;
+    private RequestAccount account;
 
     @BeforeEach
     public void setUp() {
@@ -41,13 +42,13 @@ class AccountSignUpTest {
 
     @Test
     public void signUp_password_exist_valid_success_expect() throws Exception {
-        account = Account.builder()
+        account = RequestAccount.builder()
                 .userId("test")
                 .password("1234")
                 .accountRole(AccountRole.USER)
                 .build();
 
-        mockMvc.perform(post("/api/login")
+        mockMvc.perform(post("/account")
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
                             .content(objectMapper.writeValueAsString(account)))
                 .andExpect(status().is2xxSuccessful())
